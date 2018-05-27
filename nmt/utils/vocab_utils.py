@@ -24,9 +24,7 @@ import os
 import tensorflow as tf
 
 from tensorflow.python.ops import lookup_ops
-
-from ..utils import misc_utils as utils
-
+from utils import misc_utils as utils
 
 UNK = "<unk>"
 SOS = "<s>"
@@ -65,7 +63,7 @@ def check_vocab(vocab_file, out_dir, check_special_token=True, sos=None,
         vocab_size += 3
         new_vocab_file = os.path.join(out_dir, os.path.basename(vocab_file))
         with codecs.getwriter("utf-8")(
-            tf.gfile.GFile(new_vocab_file, "wb")) as f:
+                tf.gfile.GFile(new_vocab_file, "wb")) as f:
           for word in vocab:
             f.write("%s\n" % word)
         vocab_file = new_vocab_file
@@ -79,12 +77,12 @@ def check_vocab(vocab_file, out_dir, check_special_token=True, sos=None,
 def create_vocab_tables(src_vocab_file, tgt_vocab_file, share_vocab):
   """Creates vocab tables for src_vocab_file and tgt_vocab_file."""
   src_vocab_table = lookup_ops.index_table_from_file(
-      src_vocab_file, default_value=UNK_ID)
+    src_vocab_file, default_value=UNK_ID)
   if share_vocab:
     tgt_vocab_table = src_vocab_table
   else:
     tgt_vocab_table = lookup_ops.index_table_from_file(
-        tgt_vocab_file, default_value=UNK_ID)
+      tgt_vocab_file, default_value=UNK_ID)
   return src_vocab_table, tgt_vocab_table
 
 

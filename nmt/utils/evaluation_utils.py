@@ -20,9 +20,11 @@ import re
 import subprocess
 
 import tensorflow as tf
+import sys
+sys.path.append('../')
 
-from ..scripts import bleu
-from ..scripts import rouge
+from scripts import bleu
+from scripts import rouge
 
 
 __all__ = ["evaluate"]

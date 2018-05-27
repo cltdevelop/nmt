@@ -18,6 +18,7 @@ from __future__ import print_function
 
 import argparse
 import os
+os.environ["CUDA_VISIBLE_DEVICES"] = '0'
 import random
 import sys
 
@@ -25,11 +26,11 @@ import sys
 import numpy as np
 import tensorflow as tf
 
-from . import inference
-from . import train
-from .utils import evaluation_utils
-from .utils import misc_utils as utils
-from .utils import vocab_utils
+import inference
+import train
+from utils import evaluation_utils
+from utils import misc_utils as utils
+from utils import vocab_utils
 
 utils.check_tensorflow_version()
 
@@ -41,7 +42,7 @@ def add_arguments(parser):
   parser.register("type", "bool", lambda v: v.lower() == "true")
 
   # network
-  parser.add_argument("--num_units", type=int, default=32, help="Network size.")
+  parser.add_argument("--num_units", type=int, default=128, help="Network size.")   # 32
   parser.add_argument("--num_layers", type=int, default=2,
                       help="Network depth.")
   parser.add_argument("--num_encoder_layers", type=int, default=None,
@@ -134,21 +135,21 @@ def add_arguments(parser):
                             "between [-this, this]."))
 
   # data
-  parser.add_argument("--src", type=str, default=None,
+  parser.add_argument("--src", type=str, default='vi',
                       help="Source suffix, e.g., en.")
-  parser.add_argument("--tgt", type=str, default=None,
+  parser.add_argument("--tgt", type=str, default='en',
                       help="Target suffix, e.g., de.")
-  parser.add_argument("--train_prefix", type=str, default=None,
+  parser.add_argument("--train_prefix", type=str, default='./scripts/iwslt15/train',
                       help="Train prefix, expect files with src/tgt suffixes.")
-  parser.add_argument("--dev_prefix", type=str, default=None,
+  parser.add_argument("--dev_prefix", type=str, default='./scripts/iwslt15/tst2012',
                       help="Dev prefix, expect files with src/tgt suffixes.")
-  parser.add_argument("--test_prefix", type=str, default=None,
+  parser.add_argument("--test_prefix", type=str, default='./scripts/iwslt15/tst2013',
                       help="Test prefix, expect files with src/tgt suffixes.")
-  parser.add_argument("--out_dir", type=str, default=None,
+  parser.add_argument("--out_dir", type=str, default='./checkpoint_models',
                       help="Store log/model files.")
 
   # Vocab
-  parser.add_argument("--vocab_prefix", type=str, default=None, help="""\
+  parser.add_argument("--vocab_prefix", type=str, default='./scripts/iwslt15/vocab', help="""\
       Vocab prefix, expect files with src/tgt suffixes.\
       """)
   parser.add_argument("--embed_prefix", type=str, default=None, help="""\
