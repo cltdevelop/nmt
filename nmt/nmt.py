@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright 2017 Google Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +23,6 @@ os.environ["CUDA_VISIBLE_DEVICES"] = '0'
 import random
 import sys
 
-# import matplotlib.image as mpimg
 import numpy as np
 import tensorflow as tf
 
